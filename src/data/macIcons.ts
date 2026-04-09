@@ -1,0 +1,66 @@
+/**
+ * Mapping from app IDs to macOS-style SVG icon filenames
+ * in the /mac os icons/ directory under public (pubilc).
+ *
+ * Desktop-only: mobile view continues to use ThemedIcon (Material Design).
+ */
+
+const macIconMap: Record<string, string> = {
+    // ── GUSTO Apps ──
+    events: "Books.svg",
+    rules: "Notes.svg",
+    contact: "Contacts.svg",
+    transport: "Maps.svg",
+    register: "Freeform.svg",
+
+    // ── Utilities ──
+    finder: "Finder.svg",
+    terminal: "Terminal.svg",
+    calendar: "Calendar.svg",
+    email: "Mail.svg",
+    systemPreferences: "Settings.svg",
+    achievements: "Reminders.svg",
+    spotify: "Music.svg",
+    youtube: "TV.svg", // Using Apple TV icon as placeholder for YouTube
+
+    // ── Games ──
+    minesweeper: "Chess.svg",
+    snake: "Swift Playgrounds.svg",
+
+    // ── Extra ──
+    gallery: "Photos.svg",
+    about: "System Information.svg",
+
+    // ── System ──
+    trash: "Trash Empty.svg",
+    trashFull: "Trash Full.svg",
+};
+
+/**
+ * Get the public URL path to a macOS icon for a given app ID.
+ * Returns null if no mapping exists.
+ */
+export function getMacIcon(appId: string, trashHasItems?: boolean): string | null {
+    if (appId === "trash" && trashHasItems) {
+        return `/mac_os_icons/${macIconMap["trashFull"]}`;
+    }
+    const filename = macIconMap[appId];
+    return filename ? `/mac_os_icons/${filename}` : null;
+}
+
+/**
+ * Get all icon URLs used by the desktop & dock so they can be preloaded.
+ */
+export function getAllMacIconUrls(): string[] {
+    return [
+        ...Object.values(macIconMap).map((f) => `/mac_os_icons/${f}`),
+        `/mac_os_icons/Folder.svg`,
+    ];
+}
+
+/**
+ * Get the macOS folder icon URL.
+ */
+export function getMacFolderIcon(): string {
+    return `/mac_os_icons/Folder.svg`;
+}
